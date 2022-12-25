@@ -1,0 +1,15 @@
+{{ define "pages/home.page.html" }}
+
+{{ template "base/base.layout.html" . }}
+
+  <h2>Мои изделия</h2>
+
+  <ul>
+    {{ range .products }}
+      <li>{{ .ProductName }} -- {{ .Price }} -- {{ .Photo }}</li>
+    {{ end }}
+  </ul>
+
+{{ template "partials/footer.partial.html" . }}  
+
+{{ end }}

@@ -2,25 +2,27 @@ package main
 
 import (
 	"log"
-	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"gorm.io/driver/postgres"
+	"gorm.io/gorm"
 )
 
-func setupRouter(r *gin.Engine) {
-	r.GET("/", defaultHandler)
-	r.LoadHTMLGlob("templates/**/*.html")
-}
-
-func defaultHandler(c *gin.Context) {
-	c.HTML(http.StatusOK, "default.html", gin.H{})
-}
-
 func main() {
-	r := gin.Default()
-	setupRouter(r)
-	err := r.Run()
+	dsn := "host=localhost user=postgres password=7 dbname=dvDB port=5432 sslmode=disable TimeZone=Europe/Moscow"
+	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
-		log.Fatalf("gin Run error: %s", err)
+		log.Fatalf("Срыв соединения с БД: %s", err)
+	}
+	err = setupDatabase(db)
+	if err != nil {
+		log.Fatalf("Ошибка установки БД: %s", err)
+	}
+
+	r := gin.Default()
+	setupRouter(r, db)
+	err = r.Run(":5000")
+	if err != nil {
+		log.Fatalf("Ошибка запуска Gin %s", err)
 	}
 }
