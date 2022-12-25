@@ -11,6 +11,7 @@ import (
 
 func TestHomePage(t *testing.T) {
 	t.Parallel()
+
 	w := httptest.NewRecorder()
 	ctx, r := gin.CreateTestContext(w)
 	setupRouter(r, freshDb(t))
