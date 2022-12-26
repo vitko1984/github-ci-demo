@@ -1,6 +1,6 @@
 
 
-DB_URL=postgresql://postgres:7@postgres:5432/dvDB?sslmode=disable
+DB_URL=postgresql://localhost:7@postgres:5432/dvDB?sslmode=disable
 
 #network:
 #	docker network create bank-network
